@@ -1,0 +1,13 @@
+{
+  "name": "blimeshark-gameroom",
+  "version": "0.1.0",
+  "private": true,
+  "description": "blimeshark game room",
+  "author": "blimeshark <blimeshark@etherealshack.net>",
+  "license": "MIT",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.3.0"
+  }
+}

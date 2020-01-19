@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+
+    <!-- Ensure that everything scales appropriately on a mobile device -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <!-- Let's borrow a cool looking Font from Google -->
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+    <!-- CSS and favicon -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+
+<body>
+    <div id="mainDisplay">
+        <!-- This is where the templates defined below will be used -->
+    </div>
+
+    <!-- Main Title Screen that appears when the page loads for the first time -->
+    <script id="intro-screen-template" type="text/template">
+
+        <div class="titleWrapper">
+            <div class="title">
+                MONOPOLY
+            </div>
+
+            <div class="buttons">
+                <button id="btnNewGame" class="button-primary">Start New Game</button>
+                <button id="btnJoinGame" class="button-primary">Join Game</button>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+
+    </script>
+
+    <!-- Main display screen shown before the game starts, displaying players joining the room -->
+    <script id="pregame-screen-template" type="text/template">
+        <div class="pregameWrapper">
+            <div class="info"><h1>Open this URL on your device:</h1></div>
+            <h2 id="gameURL">Error!</h2>
+
+            <h2>Room ID:</h2>
+            <h3 id="roomId">Error!</h1>
+
+            <div id="playersInRoom"></div>            
+        </div>
+    </script>
+
+
+    <!-- Player screen displayed so user can input the room number -->
+    <script id="joingame-screen-template" type="text/template">
+        <div class="joinGameWrapper">
+            <div class="info"><h2>Join Existing Game</h2></div>
+
+            <div class="row">
+                <div class="two columns offset-by-five">
+                    <label for="username">Your Name:</label>
+                    <input class="u-full-width" type="text" placeholder="Player Name" id="inputUsername"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="two columns offset-by-five">
+                    <label for="gameId">Game ID:</label>
+                    <input class="u-full-width" type="text" placeholder="Game ID" id="inputGameId"/>
+                </div>
+            </div>
+
+            <div class="info buttons">
+                <button id="btnEnterGame" class="button-primary">Enter</button>
+                <div id="joinGameError"></div>
+            </div>
+
+        </div>
+    </script>
+
+    <script id="waitforplayers-screen-template" type="tex/template">
+        <div class="joinGameWrapper">
+            <div class="info"><h2>Join Existing Game</h2></div>
+
+            <div class="row">
+                <div class="two columns offset-by-five">
+                    <p>Please wait for other players to join.</p>
+                    <button id="btnStartGame" class="button-primary">Start Game</button>
+                </div>
+            </div>
+
+        </div>
+    </script>
+
+    <!-- JavaScript Libraries -->
+
+    <!-- jQuery! -->
+    <script src="lib/jquery-2.0.2.min.js"></script>
+
+    <!-- TextFit resizes text to fill a container.
+        It's used so the titles and game words fit properly on any size screen.
+        https://github.com/STRML/textFit   -->
+    <script src="lib/textFit.min.js"></script>
+
+    <!-- FastClick is used to eliminate the 300ms delay when clicking items on a mobile device
+        https://github.com/ftlabs/fastclick -->
+    <script src="lib/fastclick.js"></script>
+
+    <!-- If Socket.IO is used with Express, then the /socket.io/ path will
+        serve the proper Socket.IO javascript files used by the browser -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Game room logic -->
+    <script src="game_room.js"></script>
+
+</body>
+</html>
