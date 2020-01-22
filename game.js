@@ -69,6 +69,8 @@ function playerJoined(data) {
 
 function playerStartGame(data) {
     // TODO: Implement
-    console.log('Player ' + data.username + ' requested game to start.');
-    console.log('Maybe we should redraw the main display here.');
+    // console.log('Player ' + data.username + ' requested game to start.');
+    // console.log('Maybe we should redraw the main display here.');
+
+    io.sockets.in(data.gameId).emit('startGame', data);
 }

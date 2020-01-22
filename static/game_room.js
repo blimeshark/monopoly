@@ -2,6 +2,88 @@
 jQuery(function($){
     'use strict';
 
+    function startSketch() {
+        let tiles = [];
+    
+        function addNonCornerTiles(x, y, index, height, length, direction) {
+            for (let i = 0; i < 9; i++)
+            {
+                let tile;
+                switch(direction) {
+                    case 0:
+                        x = x - length;
+                        tile = new Tile(x, y, length, height, index, index + 1);
+                        break;
+                    case 1:
+                        y = y - length;
+                        tile = new Tile(x, y, height, length, index, index + 1);
+                        break;
+                    case 2:
+                        x = x + length;
+                        tile = new Tile(x, y, length, height, index, index + 1);
+                        break;
+                    case 3:
+                    default:
+                        y = y + length;
+                        tile = new Tile(x, y, height, length, index, index + 1);
+                }
+    
+                tiles.push(tile);
+                index++;
+            }
+        };
+        function setupArrayOfTiles(len, halflen) {
+            // Draw the big 4 tiles
+            let goTile = new Tile(1050, 1050, len, len, 0, 1);
+            let jailTile = new Tile(0, 1050, len, len, 10, 11);
+            let freeParkingTile = new Tile(0, 0, len, len, 20, 21);
+            let goToJailTile = new Tile(1050, 0, len, len, 30, 31);
+    
+            tiles.push(goTile);
+            addNonCornerTiles(1050, 1050, goTile.index + 1, len, halflen, 0);
+            tiles.push(jailTile);
+            addNonCornerTiles(0, 1050, jailTile.index + 1, len, halflen, 1);
+            tiles.push(freeParkingTile);
+            addNonCornerTiles(50, 0, freeParkingTile.index + 1, len, halflen, 2);
+            tiles.push(goToJailTile);
+            addNonCornerTiles(1050, 50, goToJailTile.index + 1, len, halflen, 3);
+        };
+        var sketch = function(p) {
+            setupArrayOfTiles(150, 100);
+
+            p.preload = function() {
+                p.myFont = p.loadFont('fonts/MONOPOLY_INLINE.ttf');
+                p.imgTrain = p.loadImage('images/train.png');
+                p.imgFreeParking = p.loadImage('images/free_park.png');
+                p.imgGoToJail = p.loadImage('images/go_to_jail.png');
+                p.imgChance = p.loadImage('images/chance.png');
+                p.imgChest = p.loadImage('images/chest.png');
+                p.imgSuperTax = p.loadImage('images/luxury_tax.png');
+                p.imgIncomeTax = p.loadImage('images/diamond.png');
+                p.imgGoArrow = p.loadImage('images/go_arrow.png');
+                p.imgElecCompany = p.loadImage('images/bulb.png');
+                p.imgWaterWorks = p.loadImage('images/tap.png');
+                // imgInJail = loadImage('images/prison.jpg');
+            };
+
+            p.setup = function() {
+                let canvasLen = 1200;
+    
+                p.pixelDensity(3.0);
+                p.createCanvas(canvasLen, canvasLen);            
+            };
+            p.draw = function() {
+                p.background(192, 226, 202);
+                for (let tile of tiles) {
+                    tile.show(p);
+                }
+            };
+        }
+    
+    
+        var myp5 = new p5(sketch);
+    };
+
     var client = {
         init: function() {
             client.socket = io.connect();
@@ -12,6 +94,7 @@ jQuery(function($){
         eventListenerInit: function() {
             client.socket.on('connected', client.onConnect);
             client.socket.on('newGame', client.onNewGame);
+            client.socket.on('startGame', client.onStartGame);
             client.socket.on('playerJoinedGame', client.playerJoinedGame);
 
         },
@@ -43,9 +126,19 @@ jQuery(function($){
                 app.host.updateWaitingDisplay(data);
                 app.player.showPlayerWaitingDisplay(data);
             }
+        },
 
+        onStartGame: function(data) {
+            console.log('Player ' + data.username + ' called startGame. Update mainDisplay and all player screen');
 
+            if (app.role == 1)
+            {
+                // Display the Monopoly board.
+                app.host.showHostGameArea(data);
+            }           
+            
         }
+
     };
 
 
@@ -73,6 +166,7 @@ jQuery(function($){
             app.$templatePreGame = $('#pregame-screen-template').html();
             app.$templateJoinGame = $('#joingame-screen-template').html();
             app.$templateWaitForPlayers = $('#waitforplayers-screen-template').html();
+            app.$templateGameArea = $('#gamearea-screen-template').html();
         },
 
         /**
@@ -149,7 +243,11 @@ jQuery(function($){
                     // TODO: Maybe display a message if 6 players already that room is full.
                     console.log('numPlayers: ' + app.host.numPlayers);
                 }
+            },
 
+            showHostGameArea: function(data) {
+                app.$mainDisplay.html(app.$templateGameArea);
+                startSketch();
             },
         },
 
@@ -209,6 +307,11 @@ jQuery(function($){
                 }
 
             },
+
+            showPlayerGameArea: function(data) {
+                console.log("do nothing");
+
+            }
 
         },
     };

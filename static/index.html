@@ -79,7 +79,7 @@
         </div>
     </script>
 
-    <script id="waitforplayers-screen-template" type="tex/template">
+    <script id="waitforplayers-screen-template" type="text/template">
         <div class="joinGameWrapper">
             <div class="info"><h2>Join Existing Game</h2></div>
 
@@ -93,7 +93,13 @@
         </div>
     </script>
 
+    <script id="gamearea-screen-template" type="text/template">
+    </script>
+
     <!-- JavaScript Libraries -->
+
+    <!-- p5js -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.min.js"></script>
 
     <!-- jQuery! -->
     <script src="lib/jquery-2.0.2.min.js"></script>
@@ -110,6 +116,9 @@
     <!-- If Socket.IO is used with Express, then the /socket.io/ path will
         serve the proper Socket.IO javascript files used by the browser -->
     <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Board sketch-related imports -->
+    <script src="tile.js"></script>
 
     <!-- Game room logic -->
     <script src="game_room.js"></script>
