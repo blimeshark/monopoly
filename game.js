@@ -12,6 +12,7 @@ exports.initGame = function(sio, socket){
     // Set event listener for player messages
     srv.on('playerJoined', playerJoined);
     srv.on('playerStartGame', playerStartGame);
+    srv.on('playerRollDice', playerRollDice);
 }
 
 function hostNewGame() {
@@ -73,4 +74,8 @@ function playerStartGame(data) {
     // console.log('Maybe we should redraw the main display here.');
 
     io.sockets.in(data.gameId).emit('startGame', data);
+}
+
+function playerRollDice(data) {
+    io.sockets.in(data.gameId).emit('rollDice', data);
 }

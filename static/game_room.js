@@ -2,7 +2,7 @@
 jQuery(function($){
     'use strict';
 
-    function startSketch() {
+    function startSketch(players) {
         let tiles = [];
     
         function addNonCornerTiles(x, y, index, height, length, direction) {
@@ -77,6 +77,10 @@ jQuery(function($){
                 for (let tile of tiles) {
                     tile.show(p);
                 }
+
+                for (let player of players) {
+                    player.show(p, tiles);
+                }
             };
         }
     
@@ -95,6 +99,7 @@ jQuery(function($){
             client.socket.on('connected', client.onConnect);
             client.socket.on('newGame', client.onNewGame);
             client.socket.on('startGame', client.onStartGame);
+            client.socket.on('rollDice', client.onPlayerRollDice);
             client.socket.on('playerJoinedGame', client.playerJoinedGame);
 
         },
@@ -133,10 +138,40 @@ jQuery(function($){
 
             if (app.role == 1)
             {
+                console.log('Players: ' + app.host.players.length);
                 // Display the Monopoly board.
                 app.host.showHostGameArea(data);
             }           
             
+            if (app.role == 0)
+            {
+                // Display the Player screen
+                app.player.showPlayerScreen(data);
+            }
+        },
+
+        onPlayerRollDice: function(data) {
+            // TODO: What happens if r1 == r2?
+
+            if (app.role == 1)
+            {
+                console.log('Received dice roll from player: ' + data.username + " value: " + data.roll1 + " " + data.roll2);
+
+                let player;
+                for (player of app.host.players)
+                {
+                    if (player.username == data.username)
+                    {
+                        player.spot += (data.roll1 + data.roll2);
+                        if (player.spot > 39)
+                        {
+                            // Reset player.spot to valid value
+                            player.spot = player.spot - 40;
+                        }
+
+                    }
+                }
+            }
         }
 
     };
@@ -167,6 +202,7 @@ jQuery(function($){
             app.$templateJoinGame = $('#joingame-screen-template').html();
             app.$templateWaitForPlayers = $('#waitforplayers-screen-template').html();
             app.$templateGameArea = $('#gamearea-screen-template').html();
+            app.$templatePlayerScreen = $('#player-screen-template').html();
         },
 
         /**
@@ -177,6 +213,7 @@ jQuery(function($){
             app.$doc.on('click', '#btnJoinGame', app.player.onJoinGameClick);
             app.$doc.on('click', '#btnEnterGame', app.player.onJoinExistingGameClick);
             app.$doc.on('click', '#btnStartGame', app.player.onStartGameClick);
+            app.$doc.on('click', '#btnRollDice', app.player.onRollDiceClick);
         },
 
         showInitDisplay: function() {
@@ -237,7 +274,9 @@ jQuery(function($){
                     var joinMsg = '<p>Player ' + data.username + ' joined.</p>';
                     $('#playersInRoom').append(joinMsg);
 
-                    app.host.players.push(data);
+                    var p = new Player(data.username);
+
+                    app.host.players.push(p);
                     app.host.numPlayers += 1;
 
                     // TODO: Maybe display a message if 6 players already that room is full.
@@ -247,7 +286,7 @@ jQuery(function($){
 
             showHostGameArea: function(data) {
                 app.$mainDisplay.html(app.$templateGameArea);
-                startSketch();
+                startSketch(app.host.players);
             },
         },
 
@@ -287,6 +326,24 @@ jQuery(function($){
                 client.socket.emit('playerStartGame', data);
             },
 
+            onRollDiceClick: function () {
+                var data = {
+                    gameId: app.gameId,
+                    username: app.player.username,
+                    roll1: 0,
+                    roll2: 0,
+                }
+
+                var r1 = Math.floor(Math.random() * 6) + 1;
+                var r2 = Math.floor(Math.random() * 6) + 1;
+
+                data.roll1 = r1;
+                data.roll2 = r2;
+
+                console.log('Player rolled dice r1 ' + r1 + " r2 " + r2);
+                client.socket.emit('playerRollDice', data);
+            },
+
             /**
              * This function updates the Player's screen to show the
              * 'Waiting for Players' message and 'Start Game' button
@@ -308,8 +365,8 @@ jQuery(function($){
 
             },
 
-            showPlayerGameArea: function(data) {
-                console.log("do nothing");
+            showPlayerScreen: function(data) {
+                app.$mainDisplay.html(app.$templatePlayerScreen);
 
             }
 

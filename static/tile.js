@@ -28,7 +28,19 @@ class Tile {
         this.width = width;
         this.height = height;
 
+        this.setCenter();
         this.getTileType();
+    }
+
+    // this function is used to set the center coordinates
+    // for the tokens
+    setCenter() {
+        this.cx = this.x + this.width / 2;
+        this.cy = this.y + this.height / 2;
+    }
+
+    getCenter() {
+        return [this.cx, this.cy];
     }
 
     getTileType() {
@@ -526,7 +538,6 @@ class Tile {
 
 
     }
-
 
     show(p) {
         

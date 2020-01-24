@@ -96,6 +96,19 @@
     <script id="gamearea-screen-template" type="text/template">
     </script>
 
+    <!-- Player screen displayed during a game -->
+    <script id="player-screen-template" type="text/template">
+        <div class="joinGameWrapper">
+            <div class="row">
+                <div class="two columns offset-by-five">
+                    <p>Press button to roll dice.</p>
+                    <button id="btnRollDice" class="button-primary">Roll Dice</button>
+                </div>
+            </div>
+
+        </div>
+    </script>
+
     <!-- JavaScript Libraries -->
 
     <!-- p5js -->
@@ -118,6 +131,7 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <!-- Board sketch-related imports -->
+    <script src="player.js"></script>
     <script src="tile.js"></script>
 
     <!-- Game room logic -->
