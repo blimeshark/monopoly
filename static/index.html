@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/skeleton.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dice.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 
@@ -67,11 +68,89 @@
             <div class="row">
                 <div class="two columns offset-by-five">
                     <label for="gameId">Game ID:</label>
-                    <input class="u-full-width" type="text" placeholder="Game ID" id="inputGameId"/>
+                    <input class="u-full-width" type="number" placeholder="Game ID" id="inputGameId"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="one columns offset-by-five">
+                    <ol class="die-list even-roll" data-roll="1" id="die-1">
+                      <li class="die-item" data-side="1">      
+                        <span class="dot"></span>
+                      </li>
+                      <li class="die-item hide-side" data-side="2">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                      </li>
+                      <li class="die-item hide-side" data-side="3">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                      </li>
+                      <li class="die-item hide-side" data-side="4">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                      </li>
+                      <li class="die-item hide-side" data-side="5">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                      </li>
+                      <li class="die-item hide-side" data-side="6">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                      </li>
+                    </ol>
+                </div>
+                <div class="one columns">
+                    <ol class="die-list2 even-roll2" data-roll="1" id="die-2">
+                      <li class="die-item2" data-side="1">      
+                        <span class="dot"></span>
+                      </li>
+                      <li class="die-item2 hide-side" data-side="2">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                      </li>
+                      <li class="die-item2 hide-side" data-side="3">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                      </li>
+                      <li class="die-item2 hide-side" data-side="4">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                      </li>
+                      <li class="die-item2 hide-side" data-side="5">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                      </li>
+                      <li class="die-item2 hide-side" data-side="6">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                      </li>
+                    </ol>
                 </div>
             </div>
 
             <div class="info buttons">
+                <button id="btnRollDiceInit" class="button-primary">Roll Dice</button>
                 <button id="btnEnterGame" class="button-primary">Enter</button>
                 <div id="joinGameError"></div>
             </div>
@@ -135,7 +214,7 @@
     <script src="tile.js"></script>
 
     <!-- Game room logic -->
-    <script src="game_room.js"></script>
+    <script src="_game_room.js"></script>
 
 </body>
 </html>

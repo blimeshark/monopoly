@@ -211,6 +211,7 @@ jQuery(function($){
         initEvents: function() {
             app.$doc.on('click', '#btnNewGame', app.host.onNewGameClick);
             app.$doc.on('click', '#btnJoinGame', app.player.onJoinGameClick);
+            app.$doc.on('click', '#btnRollDiceStart', app.player.onRollDiceStartClick);
             app.$doc.on('click', '#btnEnterGame', app.player.onJoinExistingGameClick);
             app.$doc.on('click', '#btnStartGame', app.player.onStartGameClick);
             app.$doc.on('click', '#btnRollDice', app.player.onRollDiceClick);
@@ -232,6 +233,33 @@ jQuery(function($){
                     maxFontSize:300
                 }
             );
+        },
+
+        getRandomNumber: function(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        },
+
+        toggleClasses: function(die, s, num) {
+            if (num == 1)
+            {
+                die.classList.toggle("odd-roll");
+                die.classList.toggle("even-roll");
+            }
+            else
+            {
+                die.classList.toggle("odd-roll2");
+                die.classList.toggle("even-roll2");
+            }
+
+            setTimeout(() => {for (let i = 1; i <= 6; i++){
+                if (i == die.roll){
+                    continue;
+                } else {
+                    s[i - 1].classList.add("hide-side");
+                }}
+            }, 1150)
         },
 
 
@@ -324,6 +352,38 @@ jQuery(function($){
                 }
 
                 client.socket.emit('playerStartGame', data);
+            },
+
+            onRollDiceStartClick: function () {
+                var s1 = $('.die-item');
+                var s2 = $('.die-item2');
+                var d2 = $('.die-list2');
+
+                for (let i = 1; i <= 6; i++)
+                {
+                    s1[i - 1].classList.remove("hide-side");
+                }
+
+                $(".die-list").each(die => {
+                    console.log(die);
+
+                    //die.dataset.roll = app.getRandomNumber(1, 6);
+                    //console.log('Dice1 roll: ' + die.roll);
+                    //app.toggleClasses(die, s1, 1);
+                });
+
+                for (let i = 1; i <= 6; i++)
+                {
+                    s2[i - 1].classList.remove("hide-side");
+                }
+
+                d2.forEach(die2 => {
+                    die2.dataset.roll = app.getRandomNumber(1, 6);
+                    console.log('Dice2 roll: ' + die2.dataset.roll);
+                    app.toggleClasses(die2, sides2, 2);
+                })
+
+
             },
 
             onRollDiceClick: function () {
