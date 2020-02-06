@@ -1,3 +1,159 @@
+var diceSketch = function(p) {
+
+    var diceSize = 117;
+    var s1 = 0;
+    var s2 = 0;
+    var attempts = 0;
+    var roll1 = 0;
+
+
+    // Offsets for dice
+    var d1Offset = 100;
+    var d2Offset = (diceSize * 3) - d1Offset;
+
+    p.setup = function() {
+        p.frameRate(10);
+        var myCanvas = p.createCanvas(diceSize*3, diceSize*2);
+        myCanvas.parent("diceSketch");
+
+        p.noLoop();
+    };
+
+    p.draw = function() {
+        if (attempts == 20)
+        {
+            return;
+        }
+
+        p.background('#43936B');
+
+        // dice
+        p.noStroke();
+        p.fill('#FFF3D6');
+        p.rectMode(p.CENTER);
+        //p.rect(p.width/2, p.height/2, diceSize, diceSize, diceSize/5);
+
+        // Draw first dice
+        p.rect(d1Offset, p.height/2, diceSize, diceSize, diceSize/5);
+        p.rect(d2Offset, p.height/2, diceSize, diceSize, diceSize/5);
+
+        // dots
+        p.fill(50);
+
+        s1 = Math.floor(Math.random() * 6) + 1;
+        s2 = Math.floor(Math.random() * 6) + 1;
+
+        //console.log("init: s1 " + s1 + " s2 " + s2);
+
+        if (s1 == 1 || s1 == 3 || s1 == 5)
+        {
+            //console.log("a s1: " + s1 + " s2: " + s2);
+            // First dice
+            p.ellipse(d1Offset, p.height/2, diceSize/5, diceSize/5);
+        }
+
+        if (s2 == 1 || s2 == 3 || s2 == 5)
+        {
+            //console.log("b s1: " + s1 + " s2: " + s2);
+            // Second dice
+            p.ellipse(d2Offset, p.height/2, diceSize/5, diceSize/5);
+        }
+
+        if (s1 == 2 || s1 == 3 || s1 == 4 || s1 == 5 || s1 == 6)
+        {
+            //console.log("c s1: " + s1 + " s2: " + s2);
+            // First dice
+            p.ellipse(d1Offset - diceSize/4, p.height/2 - diceSize/4, diceSize/5, diceSize/5);
+            p.ellipse(d1Offset + diceSize/4, p.height/2 + diceSize/4, diceSize/5, diceSize/5);
+        }
+
+        if (s2 == 2 || s2 == 3 || s2 == 4 || s2 == 5 || s2 == 6)
+        {
+            //console.log("d s1: " + s1 + " s2: " + s2);
+            // Second dice
+            p.ellipse(d2Offset - diceSize/4, p.height/2 - diceSize/4, diceSize/5, diceSize/5);
+            p.ellipse(d2Offset + diceSize/4, p.height/2 + diceSize/4, diceSize/5, diceSize/5);
+        }
+
+        if (s1 == 4 || s1 == 5 || s1 == 6)
+        {
+            //console.log("e s1: " + s1 + " s2: " + s2);
+            // First dice
+            p.ellipse(d1Offset - diceSize/4, p.height/2 + diceSize/4, diceSize/5, diceSize/5);
+            p.ellipse(d1Offset + diceSize/4, p.height/2 - diceSize/4, diceSize/5, diceSize/5);
+        }
+
+        if (s2 == 4 || s2 == 5 || s2 == 6)
+        {
+            //console.log("f s1: " + s1 + " s2: " + s2);
+            // Second dice
+            p.ellipse(d2Offset - diceSize/4, p.height/2 + diceSize/4, diceSize/5, diceSize/5);
+            p.ellipse(d2Offset + diceSize/4, p.height/2 - diceSize/4, diceSize/5, diceSize/5);
+        }
+
+        if (s1 == 6)
+        {
+            //console.log("g s1: " + s1 + " s2: " + s2);
+            // First die
+            p.ellipse(d1Offset, p.height/2 - diceSize/4, diceSize/5, diceSize/5);
+            p.ellipse(d1Offset, p.height/2 + diceSize/4, diceSize/5, diceSize/5);
+        }
+
+        if (s2 == 6)
+        {
+            //console.log("h s1: " + s1 + " s2: " + s2);
+            // Second die
+            p.ellipse(d2Offset, p.height/2 - diceSize/4, diceSize/5, diceSize/5);
+            p.ellipse(d2Offset, p.height/2 + diceSize/4, diceSize/5, diceSize/5);
+        }
+
+        attempts += 1;
+
+        if (attempts == 20)
+        {
+            //console.log("attempts " + attempts + " s1: " + s1 + " s2: " + s2);
+            roll1 = s1;
+            roll2 = s2;
+            p.noLoop();
+        }
+
+        // roll
+        //if (p.mouseIsPressed && p.mouseButton === p.LEFT)
+        //{
+        //    p.noLoop();
+        //}
+    };
+
+    p.customStart = function() {
+        attempts = 0;
+        p.loop();
+    }
+
+    p.getRollValue = function() {
+        var data = {
+            r1: roll1,
+            r2: roll2,
+        }
+
+        return data;
+    }
+
+    p.mousePressed = function() {
+
+
+
+        //p.loop();
+        //setTimeout(p.noLoop(), 5000);
+    };
+
+    document.oncontextmenu = function() {
+        return true;
+    }
+
+
+}
+
+
 function startSketch(players) {
     let tiles = [];
 
@@ -343,9 +499,13 @@ var app = {
         balance: 0,
         hostSocketId: '',
         username: '',
+        diceSketch: null,
+        initRollAttempts: 2, // Number of attempts to roll dice at the start of the game
 
         onJoinGameClick: function() {
             document.getElementById("mainDisplay").innerHTML = app.$templateJoinGame;
+
+            app.player.diceSketch = new p5(diceSketch);
         },
 
         onJoinExistingGameClick: function() {
@@ -391,31 +551,37 @@ var app = {
             client.socket.emit('playerRollDice', data);
         },
 
-        onRollDiceInitClick: function(data) {
-            const s1 = [...document.querySelectorAll(".die-item")];
-            const s2 = [...document.querySelectorAll(".die-item2")];
-            const d1 = [...document.querySelectorAll(".die-list")];
-            const d2 = [...document.querySelectorAll(".die-list2")];
+        onRollDiceInitClick: function() {         
+            var data;
 
-            for (let i = 1; i <= 6; i++) {
-                s1[i - 1].classList.remove("hide-side");
+            // TODO: WIP
+            // Pass roll values to game to determine turns
+            // Resolve same value rolls.
+
+            if (app.player.initRollAttempts == 0)
+            {
+                document.getElementById("joinGameError").innerHTML = "Exceeded dice roll attempts.";
+                document.activeElement.blur();
             }
 
-            d1.forEach(die => {
-                die.dataset.roll = app.getRandomNumber(1, 6);
-                console.log("Dice 1 roll: " + die.dataset.roll);
-                app.toggleClasses(die, s1, 1);
-            });
+            else if (app.player.diceSketch != null)
+            {
+                document.getElementById("btnRollDiceInit").setAttribute('disabled', true);
+                document.getElementById("btnRollDiceInit").innerHTML = 'Rolling..';
 
-            for (let i = 1; i <= 6; i++) {
-                s2[i - 1].classList.remove("hide-side");
+                app.player.initRollAttempts -= 1;
+                app.player.diceSketch.customStart();
+
+                setTimeout(function() {
+                    document.getElementById("btnRollDiceInit").innerHTML = 'Roll Dice';
+                    document.getElementById("btnRollDiceInit").removeAttribute('disabled');      
+
+                    data = app.player.diceSketch.getRollValue();
+                    console.log('Player rolled: ' + data['r1'] + ' and ' + data['r2']);
+                }, 2000);
+            
             }
 
-            d2.forEach(die2 => {
-                die2.dataset.roll = app.getRandomNumber(1, 6);
-                console.log("Dice 2 roll: " + die2.dataset.roll);
-                app.toggleClasses(die2, s2, 2);
-            });
         },
 
         /**
