@@ -1,246 +1,3 @@
-var diceSketch = function(p) {
-
-    var diceSize = 117;
-    var s1 = 0;
-    var s2 = 0;
-    var attempts = 0;
-    var roll1 = 0;
-
-
-    // Offsets for dice
-    var d1Offset = 100;
-    var d2Offset = (diceSize * 3) - d1Offset;
-
-    p.setup = function() {
-        p.frameRate(10);
-        var myCanvas = p.createCanvas(diceSize*3, diceSize*2);
-        myCanvas.parent("diceSketch");
-
-        p.noLoop();
-    };
-
-    p.draw = function() {
-        if (attempts == 20)
-        {
-            return;
-        }
-
-        p.background('#43936B');
-
-        // dice
-        p.noStroke();
-        p.fill('#FFF3D6');
-        p.rectMode(p.CENTER);
-        //p.rect(p.width/2, p.height/2, diceSize, diceSize, diceSize/5);
-
-        // Draw first dice
-        p.rect(d1Offset, p.height/2, diceSize, diceSize, diceSize/5);
-        p.rect(d2Offset, p.height/2, diceSize, diceSize, diceSize/5);
-
-        // dots
-        p.fill(50);
-
-        s1 = Math.floor(Math.random() * 6) + 1;
-        s2 = Math.floor(Math.random() * 6) + 1;
-
-        //console.log("init: s1 " + s1 + " s2 " + s2);
-
-        if (s1 == 1 || s1 == 3 || s1 == 5)
-        {
-            //console.log("a s1: " + s1 + " s2: " + s2);
-            // First dice
-            p.ellipse(d1Offset, p.height/2, diceSize/5, diceSize/5);
-        }
-
-        if (s2 == 1 || s2 == 3 || s2 == 5)
-        {
-            //console.log("b s1: " + s1 + " s2: " + s2);
-            // Second dice
-            p.ellipse(d2Offset, p.height/2, diceSize/5, diceSize/5);
-        }
-
-        if (s1 == 2 || s1 == 3 || s1 == 4 || s1 == 5 || s1 == 6)
-        {
-            //console.log("c s1: " + s1 + " s2: " + s2);
-            // First dice
-            p.ellipse(d1Offset - diceSize/4, p.height/2 - diceSize/4, diceSize/5, diceSize/5);
-            p.ellipse(d1Offset + diceSize/4, p.height/2 + diceSize/4, diceSize/5, diceSize/5);
-        }
-
-        if (s2 == 2 || s2 == 3 || s2 == 4 || s2 == 5 || s2 == 6)
-        {
-            //console.log("d s1: " + s1 + " s2: " + s2);
-            // Second dice
-            p.ellipse(d2Offset - diceSize/4, p.height/2 - diceSize/4, diceSize/5, diceSize/5);
-            p.ellipse(d2Offset + diceSize/4, p.height/2 + diceSize/4, diceSize/5, diceSize/5);
-        }
-
-        if (s1 == 4 || s1 == 5 || s1 == 6)
-        {
-            //console.log("e s1: " + s1 + " s2: " + s2);
-            // First dice
-            p.ellipse(d1Offset - diceSize/4, p.height/2 + diceSize/4, diceSize/5, diceSize/5);
-            p.ellipse(d1Offset + diceSize/4, p.height/2 - diceSize/4, diceSize/5, diceSize/5);
-        }
-
-        if (s2 == 4 || s2 == 5 || s2 == 6)
-        {
-            //console.log("f s1: " + s1 + " s2: " + s2);
-            // Second dice
-            p.ellipse(d2Offset - diceSize/4, p.height/2 + diceSize/4, diceSize/5, diceSize/5);
-            p.ellipse(d2Offset + diceSize/4, p.height/2 - diceSize/4, diceSize/5, diceSize/5);
-        }
-
-        if (s1 == 6)
-        {
-            //console.log("g s1: " + s1 + " s2: " + s2);
-            // First die
-            p.ellipse(d1Offset, p.height/2 - diceSize/4, diceSize/5, diceSize/5);
-            p.ellipse(d1Offset, p.height/2 + diceSize/4, diceSize/5, diceSize/5);
-        }
-
-        if (s2 == 6)
-        {
-            //console.log("h s1: " + s1 + " s2: " + s2);
-            // Second die
-            p.ellipse(d2Offset, p.height/2 - diceSize/4, diceSize/5, diceSize/5);
-            p.ellipse(d2Offset, p.height/2 + diceSize/4, diceSize/5, diceSize/5);
-        }
-
-        attempts += 1;
-
-        if (attempts == 20)
-        {
-            //console.log("attempts " + attempts + " s1: " + s1 + " s2: " + s2);
-            roll1 = s1;
-            roll2 = s2;
-            p.noLoop();
-        }
-
-        // roll
-        //if (p.mouseIsPressed && p.mouseButton === p.LEFT)
-        //{
-        //    p.noLoop();
-        //}
-    };
-
-    p.customStart = function() {
-        attempts = 0;
-        p.loop();
-    }
-
-    p.getRollValue = function() {
-        var data = {
-            r1: roll1,
-            r2: roll2,
-        }
-
-        return data;
-    }
-
-    p.mousePressed = function() {
-
-
-
-        //p.loop();
-        //setTimeout(p.noLoop(), 5000);
-    };
-
-    document.oncontextmenu = function() {
-        return true;
-    }
-
-
-}
-
-
-function startSketch(players) {
-    let tiles = [];
-
-    function addNonCornerTiles(x, y, index, height, length, direction) {
-        for (let i = 0; i < 9; i++)
-        {
-            let tile;
-            switch(direction) {
-                case 0:
-                    x = x - length;
-                    tile = new Tile(x, y, length, height, index, index + 1);
-                    break;
-                case 1:
-                    y = y - length;
-                    tile = new Tile(x, y, height, length, index, index + 1);
-                    break;
-                case 2:
-                    x = x + length;
-                    tile = new Tile(x, y, length, height, index, index + 1);
-                    break;
-                case 3:
-                default:
-                    y = y + length;
-                    tile = new Tile(x, y, height, length, index, index + 1);
-            }
-
-            tiles.push(tile);
-            index++;
-        }
-    };
-    function setupArrayOfTiles(len, halflen) {
-        // Draw the big 4 tiles
-        let goTile = new Tile(1050, 1050, len, len, 0, 1);
-        let jailTile = new Tile(0, 1050, len, len, 10, 11);
-        let freeParkingTile = new Tile(0, 0, len, len, 20, 21);
-        let goToJailTile = new Tile(1050, 0, len, len, 30, 31);
-
-        tiles.push(goTile);
-        addNonCornerTiles(1050, 1050, goTile.index + 1, len, halflen, 0);
-        tiles.push(jailTile);
-        addNonCornerTiles(0, 1050, jailTile.index + 1, len, halflen, 1);
-        tiles.push(freeParkingTile);
-        addNonCornerTiles(50, 0, freeParkingTile.index + 1, len, halflen, 2);
-        tiles.push(goToJailTile);
-        addNonCornerTiles(1050, 50, goToJailTile.index + 1, len, halflen, 3);
-    };
-    var sketch = function(p) {
-        setupArrayOfTiles(150, 100);
-
-        p.preload = function() {
-            p.myFont = p.loadFont('fonts/MONOPOLY_INLINE.ttf');
-            p.imgTrain = p.loadImage('images/train.png');
-            p.imgFreeParking = p.loadImage('images/free_park.png');
-            p.imgGoToJail = p.loadImage('images/go_to_jail.png');
-            p.imgChance = p.loadImage('images/chance.png');
-            p.imgChest = p.loadImage('images/chest.png');
-            p.imgSuperTax = p.loadImage('images/luxury_tax.png');
-            p.imgIncomeTax = p.loadImage('images/diamond.png');
-            p.imgGoArrow = p.loadImage('images/go_arrow.png');
-            p.imgElecCompany = p.loadImage('images/bulb.png');
-            p.imgWaterWorks = p.loadImage('images/tap.png');
-            // imgInJail = loadImage('images/prison.jpg');
-        };
-
-        p.setup = function() {
-            let canvasLen = 1200;
-
-            p.pixelDensity(3.0);
-            p.createCanvas(canvasLen, canvasLen);            
-        };
-        p.draw = function() {
-            p.background(192, 226, 202);
-            for (let tile of tiles) {
-                tile.show(p);
-            }
-
-            for (let player of players) {
-                player.show(p, tiles);
-            }
-        };
-    }
-
-
-    var myp5 = new p5(sketch);
-};
-
-
 var client = {
     init: function() {
         client.socket = io.connect();
@@ -252,7 +9,8 @@ var client = {
         client.socket.on('newGame', client.onNewGame);
         client.socket.on('startGame', client.onStartGame);
         client.socket.on('rollDice', client.onPlayerRollDice);
-        client.socket.on('playerJoinedGame', client.playerJoinedGame);        
+        client.socket.on('playerJoinedGame', client.playerJoinedGame);
+        client.socket.on('playerUpdateTurn', client.playerUpdateTurn);
     },
 
     onConnect: function() {
@@ -283,6 +41,10 @@ var client = {
         }
     },
 
+    playerUpdateTurn: function(data) {
+        app.player.updateTurn(data);
+    },
+
     onStartGame: function(data) {
         // console.log('Player ' + data.username + ' called startGame. Update mainDisplay and all player screen');
 
@@ -293,11 +55,14 @@ var client = {
             app.host.showHostGameArea(data);
         }
 
-        if (app.role == 0)
-        {
+        //if (app.role == 0)
+        //{
+            // TODO: Only show the Player screen indicating it is their turn.
+            // Otherwise, other players get message saying it isn't their turn yet.
+
             // Display the Player Game screen
-            app.player.showPlayerScreen(data);
-        }
+        //    app.player.showPlayerScreen(data);
+        //}
     },
 
     onPlayerRollDice: function(data) {
@@ -305,21 +70,7 @@ var client = {
 
         if (app.role == 1)
         {
-            console.log('Received dice roll from player: ' + data.username + " value: " + data.roll1 + " " + data.roll2);
-
-            let player;
-            for (player of app.host.players)
-            {
-                // TODO: Implement no 2 players can have the same username in a game.
-                if (player.username == data.username)
-                {
-                    player.spot += (data.roll1 + data.roll2);
-                    if (player.spot > 39)
-                    {
-                        player.spot = player.spot - 40;
-                    }
-                }
-            }
+            app.host.movePlayer(data);
         }
     }
 };
@@ -344,6 +95,7 @@ var app = {
         app.$templateWaitForPlayers = $('#waitforplayers-screen-template').html();
         app.$templateGameArea = $('#gamearea-screen-template').html();
         app.$templatePlayerScreen = $('#player-screen-template').html();
+        app.$templatePlayerWaitScreen = $('#player-screen-wait-template').html();
     },
 
     initEvents: function() {
@@ -412,38 +164,11 @@ var app = {
         )
     },
 
-    /** Dice-roll related utility functions **/
-    getRandomNumber: function(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    },
-
-    toggleClasses: function(die, s, num) {
-        if (num == 1)
-        {
-            die.classList.toggle("odd-roll");
-            die.classList.toggle("even-roll");
-        }
-        else
-        {
-            die.classList.toggle("odd-roll2");
-            die.classList.toggle("even-roll2");
-        }
-
-        setTimeout(() => {for (let i = 1; i <= 6; i++){
-            if (i == die.dataset.roll){
-                continue;
-            } else {
-                s[i - 1].classList.add("hide-side");
-            }}
-        }, 1150)
-    },
-
-
     host: {
         players: [],
         numPlayers: 0,
+        gameInProgress: false,
+        playerIndex: 0, // Index of current player turn
 
         gameInit: function(data) {
             app.gameId = data.gameId;
@@ -478,7 +203,7 @@ var app = {
                 var joinMsg = "<p>Player " + data.username + " joined.<p>";
                 document.getElementById('playersInRoom').insertAdjacentHTML('beforeend', joinMsg);
 
-                var p = new Player(data.username);
+                var p = new Player(data.username, data.rollValue, app.socketId);
 
                 app.host.players.push(p);
                 app.host.numPlayers += 1;
@@ -488,9 +213,68 @@ var app = {
             }
         },
 
+        orderPlayers: function() {
+            app.host.players.sort((a, b) => (a.initRollValue > b.initRollValue) ? -1 : 1);
+        },
+
         showHostGameArea: function(data) {
+            app.host.gameInProgress = true;
+
+            app.host.orderPlayers();
+            app.host.playerIndex = 0;
+
             document.getElementById("mainDisplay").innerHTML = app.$templateGameArea;
             startSketch(app.host.players);
+
+            // TODO: Update turn
+            // Emit event to all players to set app.plauyer.tokenTurn accordingly.
+            var data = {
+                socketId: app.host.players[app.host.playerIndex].socketId,
+                gameId: app.gameId,
+            }
+
+            client.socket.emit('hostUpdatePlayerTurn', data);
+
+            // TODO
+            // Update display to show player name's turn
+            // Maybe setup socket listener to only wait for turnEvent from this player
+            // Update other player's screen to prevent turn but allow trades
+        },
+
+
+        movePlayer: function(data) {
+            console.log('Received dice roll from player: ' + data.username + " value: " + data.roll1 + " " + data.roll2);
+
+            let player;
+            for (player of app.host.players)
+            {
+                // TODO: Implement no 2 players can have the same username in a game.
+                if (player.username == data.username)
+                {
+                    player.spot += (data.roll1 + data.roll2);
+                    if (player.spot > 39)
+                    {
+                        player.spot = player.spot - 40;
+                    }
+                }
+            }
+
+            if (app.host.playerIndex + 1 == app.host.players.length)
+            {
+                app.host.playerIndex = 0;
+            }
+            else
+            {
+                app.host.playerIndex += 1;
+            }
+
+            var data = {
+                socketId: app.host.players[app.host.playerIndex].socketId, // socket ID of player object in app.host.players[playerIndex]
+                gameId: app.gameId,
+            }
+
+            client.socket.emit('hostUpdatePlayerTurn', data);
+            console.log('hostUpdatePlayerTurn emit event');
         },
     },
 
@@ -501,6 +285,7 @@ var app = {
         username: '',
         diceSketch: null,
         initRollAttempts: 2, // Number of attempts to roll dice at the start of the game
+        tokenTurn: false,
 
         onJoinGameClick: function() {
             document.getElementById("mainDisplay").innerHTML = app.$templateJoinGame;
@@ -509,12 +294,20 @@ var app = {
         },
 
         onJoinExistingGameClick: function() {
+            var rollData;
+
+            if (app.player.diceSketch != null) {
+                rollData = app.player.diceSketch.getRollValue();
+            }
+
             var data = {
                 gameId: document.getElementById("inputGameId").value,
                 username: document.getElementById("inputUsername").value,
+                rollValue: rollData['r1'] + rollData['r2'],
             }
 
             // TODO: Check name is valid and game ID exists on server.
+            // TODO: Check rollValue is not null
 
             client.socket.emit('playerJoined', data);
 
@@ -534,21 +327,25 @@ var app = {
         },
 
         onRollDiceClick: function () {
-            var data = {
-                gameId: app.gameId,
-                username: app.player.username,
-                roll1: 0,
-                roll2: 0,
+            if (app.player.tokenTurn == true)
+            {
+                // Only emit playerRollDice event if it is the player's turn.
+                var data = {
+                    gameId: app.gameId,
+                    username: app.player.username,
+                    roll1: 0,
+                    roll2: 0,
+                }
+
+                var r1 = Math.floor(Math.random() * 6) + 1;
+                var r2 = Math.floor(Math.random() * 6) + 1;
+
+                data.roll1 = r1;
+                data.roll2 = r2;
+
+                console.log("Player rolled dice r1: " + r1 + " r2 " + r2);
+                client.socket.emit('playerRollDice', data);                
             }
-
-            var r1 = Math.floor(Math.random() * 6) + 1;
-            var r2 = Math.floor(Math.random() * 6) + 1;
-
-            data.roll1 = r1;
-            data.roll2 = r2;
-
-            console.log("Player rolled dice r1: " + r1 + " r2 " + r2);
-            client.socket.emit('playerRollDice', data);
         },
 
         onRollDiceInitClick: function() {         
@@ -556,12 +353,12 @@ var app = {
 
             // TODO: WIP
             // Pass roll values to game to determine turns
-            // Resolve same value rolls.
+            // Resolve same value rolls between players.
 
             if (app.player.initRollAttempts == 0)
             {
                 document.getElementById("joinGameError").innerHTML = "Exceeded dice roll attempts.";
-                document.activeElement.blur();
+                document.activeElement.blur(); // Remove focus from 'Roll Dice' button
             }
 
             else if (app.player.diceSketch != null)
@@ -582,6 +379,23 @@ var app = {
             
             }
 
+        },
+
+        updateTurn: function(data) {
+            // TODO: Update this to show player screen only if tokenTurn is true
+            // See showPlayerScreen below (should only show for player with current turn).
+            console.log("App.socketId: " + app.socketId + " data.socketId: " + data.socketId);
+
+            if (data.socketId == app.socketId)
+            {
+                app.player.tokenTurn = true;
+            }
+            else
+            {
+                app.player.tokenTurn = false;
+            }
+
+            app.player.showPlayerScreen(data);
         },
 
         /**
@@ -606,7 +420,21 @@ var app = {
         },
 
         showPlayerScreen: function(data) {
-            document.getElementById("mainDisplay").innerHTML = app.$templatePlayerScreen;
+            if (app.role == 1)
+            {
+                return;
+            }
+
+            if (app.player.tokenTurn == true)
+            {
+                document.getElementById("mainDisplay").innerHTML = app.$templatePlayerScreen;
+            }
+            else
+            {
+                document.getElementById("mainDisplay").innerHTML = app.$templatePlayerWaitScreen;
+            }
+
+            
         },
     },
 };

@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/skeleton.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/dice.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 
@@ -117,6 +116,18 @@
         </div>
     </script>
 
+    <script id="player-screen-wait-template" type="text/template">
+        <div class="joinGameWrapper">
+            <div class="row">
+                <div class="two columns offset-by-five">
+                    <p>Wait for other players to roll.</p>
+                </div>
+            </div>
+
+        </div>
+    </script>
+
+
     <!-- JavaScript Libraries -->
 
     <!-- p5js -->
@@ -141,6 +152,7 @@
     <!-- Board sketch-related imports -->
     <script src="player.js"></script>
     <script src="tile.js"></script>
+    <script src="sketch.js"></script>
 
     <!-- Game room logic -->
     <script src="_game_room.js"></script>

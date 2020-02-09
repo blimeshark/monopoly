@@ -1,10 +1,13 @@
 let tokens = ['battleship', 'race_car', 'top_hat', 'penguin', 't-rex', 'cat'];
 
 class Player {
-	constructor(username) {
+	constructor(username, initRollValue, socketId) {
 		this.username = username;
 		this.spot = 0; // Tile index where player is
 		this.cash = 5000;
+		this.socketId = socketId;
+
+		this.initRollValue = initRollValue;
 
 		// TODO: Allocate token correctly.
 		//this.token = tokens[index];

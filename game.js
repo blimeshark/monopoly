@@ -8,6 +8,7 @@ exports.initGame = function(sio, socket){
 
     // Set event listener for host messages
     srv.on('hostNewGame', hostNewGame);
+    srv.on('hostUpdatePlayerTurn', hostUpdatePlayerTurn);
 
     // Set event listener for player messages
     srv.on('playerJoined', playerJoined);
@@ -23,6 +24,16 @@ function hostNewGame() {
     //console.log(io.sockets.adapter.rooms);
 }
 
+function hostUpdatePlayerTurn(data) {
+    console.log('hostUpdatePlayerTurn received with data');
+    console.log(data);
+    var gameRoom = io.sockets.adapter.rooms[data.gameId];
+
+    if (gameRoom != undefined) {
+        io.sockets.in(data.gameId).emit('playerUpdateTurn', data);
+    }
+}
+
 function playerJoined(data) {
     // TODO: Implement player joined to send back to client window
 
@@ -30,15 +41,12 @@ function playerJoined(data) {
     //var gameId = srv.manager.rooms["/" + data.gameId];
     //console.log(Object.keys(io.sockets.adapter.rooms));
     var gameRoom = io.sockets.adapter.rooms[data.gameId];
-    console.log('Game room: ');
-    console.log(gameRoom);
+    //console.log('Game room: ' + gameRoom);
 
     if (gameRoom != undefined) {
         // TODO: do not let players join if room is full
         var clients = gameRoom.sockets;
-        console.log('Clients in room: ' + data.gameId);
-        console.log(clients);
-
+        console.log('Clients in room: ' + data.gameId + ' count: ' + clients);
         //console.log('Room ' + data.gameId + ' has ' + clients + ' clients');
 
         if (clients >= 6)
@@ -46,6 +54,7 @@ function playerJoined(data) {
             // Room is already full. We are just waiting until someone starts the game
             // TODO: maybe send message to client that room is full.
         }
+
         else
         {
             // Why we need to save the client socket ID?
@@ -55,8 +64,8 @@ function playerJoined(data) {
             this.join(data.gameId);
 
             clients = gameRoom.sockets;
-            console.log('Clients in room: ' + data.gameId);
-            console.log(clients);
+            //console.log('Clients in room: ' + data.gameId);
+            //console.log(clients);
 
             io.sockets.in(data.gameId).emit('playerJoinedGame', data);            
         }
