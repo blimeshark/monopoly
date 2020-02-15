@@ -1,5 +1,4 @@
 var diceSketch = function(p) {
-
     var diceSize = 117;
     var s1 = 0;
     var s2 = 0;
@@ -140,24 +139,19 @@ var diceSketch = function(p) {
 
     p.mousePressed = function() {
 
-
-
-        //p.loop();
-        //setTimeout(p.noLoop(), 5000);
     };
 
     document.oncontextmenu = function() {
         return true;
     }
-
-
 }
 
+var gameAreaSketch = function(p) {
+    p.tiles = [];
+    p.players = [];
 
-function startSketch(players) {
-    let tiles = [];
 
-    function addNonCornerTiles(x, y, index, height, length, direction) {
+    p.addNonCornerTiles = function(x, y, index, height, length, direction) {
         for (let i = 0; i < 9; i++)
         {
             let tile;
@@ -180,62 +174,73 @@ function startSketch(players) {
                     tile = new Tile(x, y, height, length, index, index + 1);
             }
 
-            tiles.push(tile);
+            p.tiles.push(tile);
             index++;
         }
     };
-    function setupArrayOfTiles(len, halflen) {
+
+    p.setupArrayOfTiles = function(len, halflen) {
         // Draw the big 4 tiles
         let goTile = new Tile(1050, 1050, len, len, 0, 1);
         let jailTile = new Tile(0, 1050, len, len, 10, 11);
         let freeParkingTile = new Tile(0, 0, len, len, 20, 21);
         let goToJailTile = new Tile(1050, 0, len, len, 30, 31);
 
-        tiles.push(goTile);
-        addNonCornerTiles(1050, 1050, goTile.index + 1, len, halflen, 0);
-        tiles.push(jailTile);
-        addNonCornerTiles(0, 1050, jailTile.index + 1, len, halflen, 1);
-        tiles.push(freeParkingTile);
-        addNonCornerTiles(50, 0, freeParkingTile.index + 1, len, halflen, 2);
-        tiles.push(goToJailTile);
-        addNonCornerTiles(1050, 50, goToJailTile.index + 1, len, halflen, 3);
+        p.tiles.push(goTile);
+        p.addNonCornerTiles(1050, 1050, goTile.index + 1, len, halflen, 0);
+        p.tiles.push(jailTile);
+        p.addNonCornerTiles(0, 1050, jailTile.index + 1, len, halflen, 1);
+        p.tiles.push(freeParkingTile);
+        p.addNonCornerTiles(50, 0, freeParkingTile.index + 1, len, halflen, 2);
+        p.tiles.push(goToJailTile);
+        p.addNonCornerTiles(1050, 50, goToJailTile.index + 1, len, halflen, 3);
     };
-    var sketch = function(p) {
-        setupArrayOfTiles(150, 100);
 
-        p.preload = function() {
-            p.myFont = p.loadFont('fonts/MONOPOLY_INLINE.ttf');
-            p.imgTrain = p.loadImage('images/train.png');
-            p.imgFreeParking = p.loadImage('images/free_park.png');
-            p.imgGoToJail = p.loadImage('images/go_to_jail.png');
-            p.imgChance = p.loadImage('images/chance.png');
-            p.imgChest = p.loadImage('images/chest.png');
-            p.imgSuperTax = p.loadImage('images/luxury_tax.png');
-            p.imgIncomeTax = p.loadImage('images/diamond.png');
-            p.imgGoArrow = p.loadImage('images/go_arrow.png');
-            p.imgElecCompany = p.loadImage('images/bulb.png');
-            p.imgWaterWorks = p.loadImage('images/tap.png');
-            // imgInJail = loadImage('images/prison.jpg');
-        };
+    p.preload = function() {
+        /* Preload function */
+        p.myFont = p.loadFont('fonts/MONOPOLY_INLINE.ttf');
+        p.imgTrain = p.loadImage('images/train.png');
+        p.imgFreeParking = p.loadImage('images/free_park.png');
+        p.imgGoToJail = p.loadImage('images/go_to_jail.png');
+        p.imgChance = p.loadImage('images/chance.png');
+        p.imgChest = p.loadImage('images/chest.png');
+        p.imgSuperTax = p.loadImage('images/luxury_tax.png');
+        p.imgIncomeTax = p.loadImage('images/diamond.png');
+        p.imgGoArrow = p.loadImage('images/go_arrow.png');
+        p.imgElecCompany = p.loadImage('images/bulb.png');
+        p.imgWaterWorks = p.loadImage('images/tap.png');
+        // imgInJail = loadImage('images/prison.jpg');
 
-        p.setup = function() {
-            let canvasLen = 1200;
+        p.imgTokenBattleship = p.loadImage('images/token_battleship.png');
+        p.imgTokenCat = p.loadImage('images/token_cat.png');
+        p.imgTokenDucky = p.loadImage('images/token_ducky.png');
+        p.imgTokenPenguin = p.loadImage('images/token_penguin.png');
+        p.imgTokenCar = p.loadImage('images/token_raceCar.png');
+        p.imgTokenTerrier = p.loadImage('images/token_terrier.png');
+        p.imgTokenHat = p.loadImage('images/token_tophat.png');
+        p.imgTokenRex = p.loadImage('images/token_trex.png');
 
-            p.pixelDensity(3.0);
-            p.createCanvas(canvasLen, canvasLen);            
-        };
-        p.draw = function() {
-            p.background(192, 226, 202);
-            for (let tile of tiles) {
-                tile.show(p);
-            }
+        p.setupArrayOfTiles(150, 100);
+    };
 
-            for (let player of players) {
-                player.show(p, tiles);
-            }
-        };
-    }
+    p.setup = function() {
+        let canvasLen = 1200;
 
+        p.frameRate(5);
 
-    var myp5 = new p5(sketch);
-};
+        p.pixelDensity(3.0);
+        p.createCanvas(canvasLen, canvasLen);
+    };
+
+    p.draw = function() {
+        p.background(192, 226, 202);
+
+        for (let tile of p.tiles) {
+            tile.show(p);
+        }
+
+        for (let player of p.players) {
+            player.show(p, p.tiles);
+        }
+    };
+}

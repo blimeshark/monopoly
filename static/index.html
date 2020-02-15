@@ -72,6 +72,22 @@
             </div>
 
             <div class="row">
+                <div class="two columns offset-by-five">
+                    <label for="userToken">Token:</label>
+                    <select class="u-full-width" id="inputToken">
+                        <option value="scottish_terrier">Scottish Terrier</option>
+                        <option value="battleship">Battleship 1935</option>
+                        <option value="race_car">Race Car mid-1935</option>
+                        <option value="top_hat">Top Hat 1935</option>
+                        <option value="penguin">Penguin 2017</option>
+                        <option value="t_rex">T-Rex 2017</option>
+                        <option value="cat">Cat</option>
+                        <option value="rubber_ducky">Rubber Ducky 2017</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="four columns offset-by-four" id="diceSketch">
 
                 </div>
@@ -106,6 +122,8 @@
     <!-- Player screen displayed during a game -->
     <script id="player-screen-template" type="text/template">
         <div class="joinGameWrapper">
+            <div class="info" id="playerId"><h2>Player</h2></div>
+
             <div class="row">
                 <div class="two columns offset-by-five">
                     <p>Press button to roll dice.</p>
@@ -118,6 +136,8 @@
 
     <script id="player-screen-wait-template" type="text/template">
         <div class="joinGameWrapper">
+            <div class="info" id="playerId"><h2>Player</h2></div>
+
             <div class="row">
                 <div class="two columns offset-by-five">
                     <p>Wait for other players to roll.</p>
@@ -155,7 +175,7 @@
     <script src="sketch.js"></script>
 
     <!-- Game room logic -->
-    <script src="_game_room.js"></script>
+    <script src="game_room.js"></script>
 
 </body>
 </html>

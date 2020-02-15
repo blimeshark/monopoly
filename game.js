@@ -21,12 +21,14 @@ function hostNewGame() {
     this.emit('newGame', {gameId: rmId, socketId: this.id});
     this.join(rmId.toString());
 
+    io.sockets.adapter.rooms[rmId].tokens = ['scottish_terrier', 'battleship', 'race_car', 'top_hat', 'penguin', 't_rex', 'cat', 'rubber_ducky'];
+
     //console.log(io.sockets.adapter.rooms);
 }
 
 function hostUpdatePlayerTurn(data) {
-    console.log('hostUpdatePlayerTurn received with data');
-    console.log(data);
+    //console.log('hostUpdatePlayerTurn received with data');
+    //console.log(data);
     var gameRoom = io.sockets.adapter.rooms[data.gameId];
 
     if (gameRoom != undefined) {
@@ -35,45 +37,42 @@ function hostUpdatePlayerTurn(data) {
 }
 
 function playerJoined(data) {
-    // TODO: Implement player joined to send back to client window
-
-    // fn playerJoined listens to srv socket event 'playerJoined'
-    //var gameId = srv.manager.rooms["/" + data.gameId];
-    //console.log(Object.keys(io.sockets.adapter.rooms));
     var gameRoom = io.sockets.adapter.rooms[data.gameId];
-    //console.log('Game room: ' + gameRoom);
 
     if (gameRoom != undefined) {
         // TODO: do not let players join if room is full
         var clients = gameRoom.sockets;
-        console.log('Clients in room: ' + data.gameId + ' count: ' + clients);
-        //console.log('Room ' + data.gameId + ' has ' + clients + ' clients');
+        var availableTokens = io.sockets.adapter.rooms[data.gameId].tokens;
+        var tokenIndex = availableTokens.indexOf(data.token);
+        //console.log('Available tokens for room ' + data.gameId + ' ' + availableTokens);
 
         if (clients >= 6)
         {
             // Room is already full. We are just waiting until someone starts the game
             // TODO: maybe send message to client that room is full.
+            this.emit('joinGameError',  {errorMsg: "Game room is already full."});
         }
 
+        else if (tokenIndex == -1)
+        {
+            this.emit('joinGameError', {errorMsg: "Token not available."});
+
+        }
         else
         {
-            // Why we need to save the client socket ID?
+            availableTokens.splice(tokenIndex, 1);
+
+            /* Save client ID to identify each user and the host */
             data.socketId = this.id;
-            console.log('Socket ID: ' + this.id);
 
             this.join(data.gameId);
 
-            clients = gameRoom.sockets;
-            //console.log('Clients in room: ' + data.gameId);
-            //console.log(clients);
-
-            io.sockets.in(data.gameId).emit('playerJoinedGame', data);            
+            io.sockets.in(data.gameId).emit('playerJoinedGame', data);
         }
     }
     else
     {
-        console.log('Game room not found.');
-        this.emit('errorMsg', {message: "Game ID does not exist."});
+        this.emit('joinGameError', {errorMsg: "Game ID does not exist."});
     }
 }
 
