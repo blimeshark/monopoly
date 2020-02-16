@@ -535,9 +535,31 @@ class Tile {
             p.image(p.imgChest, -1 * this.y - 85, this.x + 55, 70, 70);
             p.pop();            
         }
-
-
     }
+
+
+    drawDeed(p) {
+        switch (this.index)
+        {
+            case 1:
+            case 3:
+            case 5:
+            case 6:
+            case 8:
+            case 9:
+                p.noFill()
+                p.beginShape();
+                p.vertex(this.x, this.y);
+                p.vertex(this.x + 100, this.y);
+                p.vertex(this.x + 75, this.y - 25);
+                p.vertex(this.x + 25, this.y - 25);
+                p.endShape(p.CLOSE);
+                break;
+            default:
+                break;
+        }
+    }
+
 
     show(p) {
         p.strokeWeight(3);

@@ -237,6 +237,7 @@ var gameAreaSketch = function(p) {
 
         for (let tile of p.tiles) {
             tile.show(p);
+            tile.drawDeed(p);
         }
 
         for (let player of p.players) {

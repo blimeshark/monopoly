@@ -206,9 +206,6 @@ var app = {
 
                 app.host.players.push(p);
                 app.host.numPlayers += 1;
-
-                // TODO: Display an error message if 6 players already that room is full.
-                // console.log('numPlayers: ' + app.host.numPlayers);
             }
         },
 
@@ -253,13 +250,8 @@ var app = {
                 if (player.username == data.username)
                 {
                     player.move(data.roll1 + data.roll2);
+                    app.host.gameSketch.tiles[player.destSpot].drawDeed(app.host.gameSketch);
                     break;
-
-                    //player.spot += (data.roll1 + data.roll2);
-                    //if (player.spot > 39)
-                    //{
-                    //    player.spot = player.spot - 40;
-                    //}
                 }
             }
 
