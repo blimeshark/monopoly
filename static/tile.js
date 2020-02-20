@@ -539,6 +539,14 @@ class Tile {
 
 
     drawDeed(p) {
+        var strokeThickness = 2;
+        var trapezoidHeight = 20;
+
+        // Total width: 100
+        var offsetLeft = 35;
+        var offsetRight = 65;
+
+
         switch (this.index)
         {
             case 1:
@@ -547,13 +555,70 @@ class Tile {
             case 6:
             case 8:
             case 9:
-                p.noFill()
                 p.beginShape();
-                p.vertex(this.x, this.y);
-                p.vertex(this.x + 100, this.y);
-                p.vertex(this.x + 75, this.y - 25);
-                p.vertex(this.x + 25, this.y - 25);
+                p.fill(255, 204, 0);
+                p.strokeWeight(1);
+                p.vertex(this.x, this.y - strokeThickness);
+                p.vertex(this.x + 100, this.y - strokeThickness);
+                p.vertex(this.x + offsetRight, this.y - (strokeThickness + trapezoidHeight));
+                p.vertex(this.x + offsetLeft, this.y - (strokeThickness + trapezoidHeight));
                 p.endShape(p.CLOSE);
+
+                // Revert back to defaults after drawing
+                p.strokeWeight(3);
+
+                break;
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 18:
+            case 19:
+                p.beginShape();
+                p.fill(255, 204, 0);
+                p.strokeWeight(1);
+                p.vertex(this.x + 150 + strokeThickness, this.y);
+                p.vertex(this.x + 150 + strokeThickness, this.y + 100);
+                p.vertex(this.x + 170 + strokeThickness, this.y + offsetRight);
+                p.vertex(this.x + 170 + strokeThickness, this.y + offsetLeft);
+                p.endShape(p.CLOSE);
+                p.strokeWeight(3);
+                break;
+            case 21:
+            case 23:
+            case 24:
+            case 25:
+            case 26:
+            case 27:
+            case 28:
+            case 29:
+                p.beginShape();
+                p.fill(255, 204, 0);
+                p.strokeWeight(1);
+                p.vertex(this.x, this.y + 150 + strokeThickness);
+                p.vertex(this.x + 100, this.y + 150 + strokeThickness);
+                p.vertex(this.x + 65, this.y + 150 + trapezoidHeight);
+                p.vertex(this.x + 35, this.y + 150 + trapezoidHeight);
+                p.endShape(p.CLOSE);
+                p.strokeWeight(3);
+                break;
+            case 31:
+            case 32:
+            case 34:
+            case 35:
+            case 37:
+            case 39:
+                p.beginShape();
+                p.fill(255, 204, 0);
+                p.strokeWeight(1);
+                p.vertex(this.x - strokeThickness, this.y);
+                p.vertex(this.x - strokeThickness, this.y + 100);
+                p.vertex(this.x - (trapezoidHeight + strokeThickness), this.y + offsetRight);
+                p.vertex(this.x - (trapezoidHeight + strokeThickness), this.y + offsetLeft);
+                p.endShape(p.CLOSE);
+                p.strokeWeight(3);
                 break;
             default:
                 break;
