@@ -150,6 +150,29 @@ var gameAreaSketch = function(p) {
     p.tiles = [];
     p.players = [];
 
+    p.getTokenImage = function(tokenName) {
+        switch(tokenName)
+        {
+            case 'scottish_terrier':
+                return p.imgTokenTerrier;
+            case 'battleship':
+                return p.imgTokenBattleship;
+            case 'race_car':
+                return p.imgTokenCar;
+            case 'top_hat':
+                return p.imgTokenHat;
+            case 'penguin':
+                return p.imgTokenPenguin;
+            case 't_rex':
+                return p.imgTokenRex;
+            case 'cat':
+                return p.imgTokenRex;
+            case 'rubber_ducky':
+                return p.imgTokenDucky;
+            default:
+                return null
+        }
+    };
 
     p.addNonCornerTiles = function(x, y, index, height, length, direction) {
         for (let i = 0; i < 9; i++)
@@ -237,7 +260,7 @@ var gameAreaSketch = function(p) {
 
         for (let tile of p.tiles) {
             tile.show(p);
-            tile.drawDeed(p);
+            // tile.drawDeed(p);
         }
 
         for (let player of p.players) {

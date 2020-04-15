@@ -19,6 +19,8 @@ const tileTypes = {
     INCOMETAX: 'incometax',
 };
 
+const invalidOwnerIndex = 6;
+
 class Tile {
     constructor(x, y, width, height, index, next) {
         this.x = x;
@@ -28,8 +30,12 @@ class Tile {
         this.width = width;
         this.height = height;
 
+        this.purchasePrice = "";
+        this.deedCost = {};  
+
         this.setCenter();
         this.getTileType();
+        this.setTileState();
     }
 
     // this function is used to set the center coordinates
@@ -41,6 +47,20 @@ class Tile {
 
     getCenter() {
         return [this.cx, this.cy];
+    }
+
+    setTileState() {
+        this.state = {};
+        this.state['owner'] = invalidOwnerIndex;
+        this.state['mortgaged'] = false;
+        this.state['houses'] = 0;
+        this.state['hotel'] = false;
+        this.state['price'] = 0;
+
+        if (!(this.purchasePrice === ""))
+        {
+            this.purchasePrice = parseInt(this.tiles[tileIndex].purchasePrice.substr(1));
+        }
     }
 
     getTileType() {
@@ -62,14 +82,19 @@ class Tile {
                 if (this.index == 6) {
                     this.name = "The Angel, Islington";
                     this.nameArr = ["The Angel,", "Islington"];
+                    this.deedCost = {'rent': 6, 'rentColourSet': 12, 'rentSingle': 30, 'rentDouble': 90, 'rentTriple': 270, 'rentFour': 400, 'rentHotel': 550};
                 } else if (this.index == 8) {
                     this.name = "Euston Road";
                     this.nameArr = ["Euston", "Road"];
+                    this.deedCost = {'rent': 6, 'rentColourSet': 12, 'rentSingle': 30, 'rentDouble': 90, 'rentTriple': 270, 'rentFour': 400, 'rentHotel': 550};
                 } else {
                     this.name = "Pentonville Road";
                     this.nameArr = ["Pentonville", "Road"];
+                    this.deedCost = {'rent': 8, 'rentColourSet': 16, 'rentSingle': 40, 'rentDouble': 100, 'rentTriple': 300, 'rentFour': 450, 'rentHotel': 600};
                 }
 
+                this.deedCost['houseCost'] = 50;
+                this.deedCost['hotelCost'] = 50;
                 this.purchasePrice = (this.index == 9) ? "$120" : "$100";
                 break;
 

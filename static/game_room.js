@@ -249,9 +249,14 @@ var app = {
                 // TODO: Implement no 2 players can have the same username in a game.
                 if (player.username == data.username)
                 {
+                    player.playerTurn = true;
                     player.move(data.roll1 + data.roll2);
-                    app.host.gameSketch.tiles[player.destSpot].drawDeed(app.host.gameSketch);
+                    // app.host.gameSketch.tiles[player.destSpot].drawDeed(app.host.gameSketch);
                     break;
+                }
+                else
+                {
+                    player.playerTurn = false;
                 }
             }
 

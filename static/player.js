@@ -7,7 +7,11 @@ class Player {
         this.socketId = socketId;
 
         this.initRollValue = initRollValue;
-        this.token = playerToken;
+        // this.token = playerToken;
+
+        this.token = new Token(playerToken)
+
+        this.playerTurn = false;
 
         // TODO: Allocate token correctly.
         //this.token = tokens[index];
@@ -25,12 +29,21 @@ class Player {
         this.destSpot = nextSpot;
     }
 
-
     show(p, tiles) {
-        //p.fill(255);
-        let tempSpot = this.spot;
-        if (this.spot != this.destSpot)
+        let current = tiles[this.spot];
+        let width = this.token.width;
+        let height = this.token.height;
+        let x = current.cx - (width / 2);;
+        let y = current.cy - (height / 2);;
+        let image = p.getTokenImage(this.token.tokenName);
+
+        if (image == null)
         {
+            return;
+        }
+
+        if (this.spot != this.destSpot)
+        {       
             this.spot += 1;
             if (this.spot > 39)
             {
@@ -38,38 +51,15 @@ class Player {
             }
         }
 
-        let current = tiles[this.spot];
-        //let center = current.getCenter();
-        let cx = current.x;
-        let cy = current.y;
-        //p.ellipse(center[0], center[1], 32, 32);
-
-        switch(this.token) {
-            case 'scottish_terrier':
-                p.image(p.imgTokenTerrier, cx, cy, 50, 47);
-                break;
-            case 'battleship':
-                p.image(p.imgTokenBattleShip, cx, cy, 50, 51);
-                break;
-            case 'race_car':
-                p.image(p.imgTokenCar, cx, cy, 50, 38);
-                break;
-            case 'top_hat':
-                p.image(p.imgTokenHat, cx, cy, 50, 36);
-                break;
-            case 'penguin':
-                p.image(p.imgTokenPenguin, cx, cy, 37, 50);
-                break;
-            case 't_rex':
-                p.image(p.imgTokenRex, cx, cy, 50, 34);
-                break;
-            case 'cat':
-                p.image(p.imgTokenCat, cx, cy, 42, 52);
-                break;
-            case 'rubber_ducky':
-                p.image(p.imgTokenDucky, cx, cy, 50, 46);
-                break;
-            default:
+        if (this.playerTurn)
+        {
+            p.image(image, x, y, width, height);
+        }
+        else
+        {
+            p.tint(255, 127);
+            p.image(image, x, y, width, height);
+            p.noTint();            
         }
     }
 }
