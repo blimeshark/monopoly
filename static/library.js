@@ -1,0 +1,37 @@
+var communityChest = [
+{"Advance to Go. (Collect $200)"},
+{"School fees. Pay $50"},
+{"Income Tax Refund.Collect $20."},
+{"You have won second prize in a beauty contest. Collect $10."},
+{"You inherit $100."},
+{"Holiday fund matures. $Receive $100."},
+{"Go to Jail, Go Directly to Jail, Do not pass Go, Do not collect $200."},
+{"Receive $25 Consultancy Fee."},
+{"Bank Error in your favour. Collect $200"},
+{"Hospital fees Pay $100."},
+{"It is your birthday. Collect $10 from every player."},
+{"Doctor's fees. Pay $50."},
+{"Life insurance matures. Collect $100."},
+{"You are assessed for street repairs: pay $40 per house and $115 per hotel you own."},
+{"Get out of jail free. This card may be kept until needed or traded."},
+{"From sale of stock you get $50."}
+];
+
+var chance = [
+{"Advance to Trafalgar Square. If you pass Go, collect $200."},
+{"Advance to Go. (Collect $200)"},
+{"Your building loan matures. Collect $150."},
+{"ADVANCE TO THE NEAREST STATION. If UNOWNED, you may buy it from the bank. If OWNED, pay owner twice the rental to which they are otherwise entitled."},
+{"Advance to Pall Mall. If you pass Go, collect $200."},
+{"You have been elected chairman of the board. Pay each player $50."},
+{"Go back three spaces."},
+{"Make general repairs on all your property. For each house pay $25, for each hotel pay $100."},
+{"Advance to Mayfair."},
+{"ADVANCE TO THE NEAREST UTILITY. If UNOWNED, you may buy it from the bank. If OWNED, throw dice and pay owner 10 times the amount thrown."},
+{"Go to Jail, Go Directly to Jail, Do not pass Go, Do not collect $200."},
+{"Take a trip to Kings Cross Station. If you pass Go, collect $200."},
+{"Bank pays you divident of $50."},
+{"Get out of jail free. This card may be kept until needed or traded."},
+{"Speeding fine $15."},
+{"ADVANCE TO THE NEAREST STATION. If UNOWNED, you may buy it from the bank. If OWNED, pay owner twice the rental to which they are otherwise entitled."},
+];
