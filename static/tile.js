@@ -56,11 +56,6 @@ class Tile {
         this.state['houses'] = 0;
         this.state['hotel'] = false;
         this.state['price'] = 0;
-
-        if (!(this.purchasePrice === ""))
-        {
-            this.purchasePrice = parseInt(this.tiles[tileIndex].purchasePrice.substr(1));
-        }
     }
 
     getTileType() {
@@ -69,8 +64,19 @@ class Tile {
             case 3:
                 this.type = tileTypes.BROWN_DD;
                 this.propertyColor = [139, 69, 19];
-                this.name = (this.index == 1) ? "Old Kent Road" : 'Whitechapel Road';
-                this.nameArr = (this.index == 1) ? ["Old Kent", "Road"] : ["Whitechapel", "Road"];
+
+                if (this.index == 1) {
+                    this.name = "Old Kent Road";
+                    this.nameArr = ["Old Kent", "Road"];
+                    this.deedCost = {'rent': 2, 'rentColourSet': 4, 'rentSingle': 10, 'rentDouble': 30, 'rentTriple': 90, 'rentFour': 160, 'rentHotel': 250};
+                } else if (this.index == 3) {
+                    this.name = "WhiteChapel Road";
+                    this.nameArr = ["Whitechapel", "Road"];
+                    this.deedCost = {'rent': 4, 'rentColourSet': 8, 'rentSingle': 20, 'rentDouble': 60, 'rentTriple': 180, 'rentFour': 320, 'rentHotel': 450};
+                }
+
+                this.deedCost['houseCost'] = 50;
+                this.deedCost['hotelCost'] = 50;
                 this.purchasePrice = "$60";
                 break;
 
@@ -106,13 +112,19 @@ class Tile {
                 if (this.index == 11) {
                     this.name = "Pall Mall";
                     this.nameArr = ["Pall", "Mall"];
+                    this.deedCost = {'rent': 10, 'rentColourSet': 20, 'rentSingle': 50, 'rentDouble': 150, 'rentTriple': 450, 'rentFour': 625, 'rentHotel': 750};
                 } else if (this.index == 13) {
                     this.name = "Whitehall";
                     this.nameArr = ["Whitehall", ""];
+                    this.deedCost = {'rent': 10, 'rentColourSet': 20, 'rentSingle': 50, 'rentDouble': 150, 'rentTriple': 450, 'rentFour': 625, 'rentHotel': 750};
                 } else {
                     this.name = "Northumberland Avenue";
                     this.nameArr= ["North'mberland", "Avenue"];
+                    this.deedCost = {'rent': 12, 'rentColourSet': 24, 'rentSingle': 60, 'rentDouble': 180, 'rentTriple': 500, 'rentFour': 700, 'rentHotel': 900};
                 }
+
+                this.deedCost['houseCost'] = 100;
+                this.deedCost['hotelCost'] = 100;
                 this.purchasePrice = (this.index == 14) ? "$160" : "$140";
                 break;
 
@@ -124,13 +136,19 @@ class Tile {
                 if (this.index == 16) {
                     this.name = "Bow Street";
                     this.nameArr = ["Bow", "Street"];
+                    this.deedCost = {'rent': 14, 'rentColourSet': 28, 'rentSingle': 70, 'rentDouble': 200, 'rentTriple': 550, 'rentFour': 750, 'rentHotel': 950};
                 } else if (this.index == 18) {
                     this.name = "Marlborough Street";
                     this.nameArr = ["Marlborough", "Street"];
+                    this.deedCost = {'rent': 14, 'rentColourSet': 28, 'rentSingle': 70, 'rentDouble': 200, 'rentTriple': 550, 'rentFour': 750, 'rentHotel': 950};
                 } else {
                     this.name = "Vine Street";
                     this.nameArr = ["Vine", "Street"];
+                    this.deedCost = {'rent': 16, 'rentColourSet': 32, 'rentSingle': 80, 'rentDouble': 220, 'rentTriple': 600, 'rentFour': 800, 'rentHotel': 1000};
                 }
+
+                this.deedCost['houseCost'] = 100;
+                this.deedCost['hotelCost'] = 100;
                 this.purchasePrice = (this.index == 19) ? "$200" : "$180";
                 break;
 
@@ -142,13 +160,19 @@ class Tile {
                 if (this.index == 21) {
                     this.name = "Strand";
                     this.nameArr = ["Strand", ""];
+                    this.deedCost = {'rent': 18, 'rentColourSet': 36, 'rentSingle': 90, 'rentDouble': 250, 'rentTriple': 700, 'rentFour': 875, 'rentHotel': 1050};
                 } else if (this.index == 23) {
                     this.name = "Fleet Street";
                     this.nameArr = ["Fleet", "Street"];
+                    this.deedCost = {'rent': 18, 'rentColourSet': 36, 'rentSingle': 90, 'rentDouble': 250, 'rentTriple': 700, 'rentFour': 875, 'rentHotel': 1050};
                 } else {
                     this.name = "Trafalgar Street";
                     this.nameArr = ["Trafalgar", "Street"];
+                    this.deedCost = {'rent': 20, 'rentColourSet': 40, 'rentSingle': 100, 'rentDouble': 300, 'rentTriple': 750, 'rentFour': 925, 'rentHotel': 1100};
                 }
+
+                this.deedCost['houseCost'] = 150;
+                this.deedCost['hotelCost'] = 150;
                 this.purchasePrice = (this.index == 24) ? "$240" : "$220";
                 break;
 
@@ -160,13 +184,19 @@ class Tile {
                 if (this.index == 26) {
                     this.name = "Leicester Square";
                     this.nameArr = ["Leicester", "Square"];
+                    this.deedCost = {'rent': 22, 'rentColourSet': 44, 'rentSingle': 110, 'rentDouble': 330, 'rentTriple': 800, 'rentFour': 975, 'rentHotel': 1150};
                 } else if (this.index == 27) {
                     this.name = "Coventry Street";
                     this.nameArr = ["Coventry", "Street"];
+                    this.deedCost = {'rent': 22, 'rentColourSet': 44, 'rentSingle': 110, 'rentDouble': 330, 'rentTriple': 800, 'rentFour': 975, 'rentHotel': 1150};
                 } else {
                     this.name = "Picadilly";
                     this.nameArr = ["Picadilly", ""];
+                    this.deedCost = {'rent': 24, 'rentColourSet': 48, 'rentSingle': 120, 'rentDouble': 360, 'rentTriple': 850, 'rentFour': 1025, 'rentHotel': 1200};
                 }
+
+                this.deedCost['houseCost'] = 150;
+                this.deedCost['hotelCost'] = 150;
                 this.purchasePrice = (this.index == 29) ? "$280" : "$260";
                 break;
 
@@ -178,13 +208,19 @@ class Tile {
                 if (this.index == 31) {
                     this.name = "Regent Street";
                     this.nameArr = ["Regent", "Street"];
+                    this.deedCost = {'rent': 26, 'rentColourSet': 52, 'rentSingle': 130, 'rentDouble': 390, 'rentTriple': 900, 'rentFour': 1100, 'rentHotel': 1275};
                 } else if (this.index == 32) {
                     this.name = "Oxford Street";
                     this.nameArr = ["Oxford", "Street"];
+                    this.deedCost = {'rent': 26, 'rentColourSet': 52, 'rentSingle': 130, 'rentDouble': 390, 'rentTriple': 900, 'rentFour': 1100, 'rentHotel': 1275};
                 } else {
                     this.name = "Bond Street";
                     this.nameArr = ["Bond", "Street"];
+                    this.deedCost = {'rent': 28, 'rentColourSet': 56, 'rentSingle': 150, 'rentDouble': 450, 'rentTriple': 1000, 'rentFour': 1200, 'rentHotel': 1400};
                 }
+
+                this.deedCost['houseCost'] = 200;
+                this.deedCost['hotelCost'] = 200;
                 this.purchasePrice = (this.index == 34) ? "$320" : "$300";
                 break;
 
@@ -192,10 +228,21 @@ class Tile {
             case 39:
                 this.type = tileTypes.BLUE_DD;
                 this.propertyColor = [0, 0, 139];
-                this.name = (this.index == 37) ? "Park Lane" : "Mayfair";
-                this.nameArr = (this.index == 37) ? ["Park", "Lane"] : ["Mayfair", ""];
-                this.purchasePrice = (this.index == 39) ? "$400" : "$350";
 
+                if (this.index == 37) {
+                    this.name = "Park Lane";
+                    this.nameArr = ["Park", "Lane"];
+                    this.deedCost = {'rent': 35, 'rentColourSet': 70, 'rentSingle': 175, 'rentDouble': 500, 'rentTriple': 1100, 'rentFour': 1300, 'rentHotel': 1500};
+                }
+                else if (this.index == 39) {
+                    this.name = "Mayfair";
+                    this.nameArr = ["Mayfair", ""];
+                    this.deedCost = {'rent': 50, 'rentColourSet': 100, 'rentSingle': 200, 'rentDouble': 600, 'rentTriple': 1400, 'rentFour': 1700, 'rentHotel': 2000};
+                }
+
+                this.deedCost['houseCost'] = 200;
+                this.deedCost['hotelCost'] = 200;
+                this.purchasePrice = (this.index == 39) ? "$400" : "$350";
                 break;
 
             case 5:
@@ -213,6 +260,7 @@ class Tile {
                     this.name = "Liverpool St. Station";
                 }
 
+                this.deedCost = {'rent': 25, 'twoStation': 50, 'threeStation': 100, 'allStations': 200};
                 this.purchasePrice = "$200";
                 break;
 
@@ -221,6 +269,7 @@ class Tile {
                 this.type = tileTypes.UTILITY;
                 this.name = (this.index == 12) ? "Electric Company" : "Water Works";
                 this.purchasePrice = "$150";
+                this.deedCost = {'defaultMultiplier': 4, 'allMultiplier': 10};
                 break;
 
             case 2:
